@@ -12,7 +12,7 @@ app.use(
 );
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded()); // to support URL-encoded bodies
-
+const path = require("path");
 var cors = require("cors");
 app.use(cors());
 
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 
 app.get("/scores", (req, res) => {
   let return_arrays = {};
-  let scores = fs.readFileSync("./players.json");
+  let scores = fs.readFileSync(path.resolve(__dirname, "players.json"));
   let scores_parsed = JSON.parse(scores);
   scores_parsed.sort((a, b) => b.score - a.score);
   var high_scores = JSON.parse(JSON.stringify(scores_parsed));
@@ -46,7 +46,7 @@ app.post("/scores", (req, res) => {
     let matrix = body.matrix;
     let name = body.name;
     let score = body.score;
-    let scores = fs.readFileSync("./players.json");
+    let scores = fs.readFileSync(path.resolve(__dirname, "players.json"));
     let scores_parsed = JSON.parse(scores);
 
     let high_score_user_index = scores_parsed.findIndex((s) => s.name == name);
@@ -78,7 +78,10 @@ app.post("/scores", (req, res) => {
   }
 
   if (success && arr.length) {
-    fs.writeFileSync("./players.json", JSON.stringify(arr));
+    fs.writeFileSync(
+      path.resolve(__dirname, "players.json"),
+      JSON.stringify(arr)
+    );
   }
 });
 
