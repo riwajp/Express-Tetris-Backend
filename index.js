@@ -23,11 +23,11 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("recieve-state", name, matrix, score);
   });
 });
-http.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("hi");
 });
-http.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
+http.listen(port, () => {
+  console.log(`Server listening on ${port}`);
 });
 //====================================================================================
 
