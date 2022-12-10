@@ -1,20 +1,16 @@
 const port = 5000;
 const express = require("express");
 const app = express();
-const http = require("http").Server(app);
+const http = require("http").createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
 const cors = require("cors");
 
-app.get("/api", (req, res) => {
-  res.json({
-    message: "Hello world",
-  });
+app.get("/", (req, res) => {
+  res.send("hi");
 });
 
-const io = require("socket.io")(http, {
-  cors: {
-    origin: ["https://riwaj-tetris.netlify.app", "http://localhost:3000"],
-  },
-});
 io.on("connection", (socket) => {
   console.log(socket.id);
 
@@ -23,9 +19,7 @@ io.on("connection", (socket) => {
     socket.broadcast.emit("recieve-state", name, matrix, score);
   });
 });
-app.get("/", (req, res) => {
-  res.send("hi");
-});
+
 http.listen(port, () => {
   console.log(`Server listening on ${port}`);
 });
