@@ -4,7 +4,7 @@ const port = 5000;
 
 const io = require("socket.io")(port, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["https://riwaj-tetris.netlify.app", "http://localhost:3000"],
   },
 });
 
